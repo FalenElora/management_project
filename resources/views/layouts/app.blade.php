@@ -28,7 +28,12 @@
         </li>
       </ul>
 
-     
+      <form action="{{ route('logout') }}" method="post">
+        @csrf
+        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded transition">
+          Logout
+        </button>
+      </form>
     </div>
   </nav>
 

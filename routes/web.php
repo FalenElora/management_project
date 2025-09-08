@@ -20,3 +20,6 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'loginProses'])->name('loginProses');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
+Route::post('/register', [AuthController::class, 'registerProses'])->name('registerProses');
