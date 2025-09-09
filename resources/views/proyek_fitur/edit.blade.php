@@ -11,7 +11,7 @@
 <div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded">
     <h2 class="text-xl font-bold mb-4">Edit Proyek Fitur</h2>
 
-    <form action="{{ route('proyek-fitur.update', $proyekFitur->id) }}" method="POST" class="space-y-4">
+    <form action="{{ route('proyek_fitur.update', $proyekFitur->id) }}" method="POST" class="space-y-4">
         @csrf
         @method('PUT')
 
@@ -38,7 +38,7 @@
 
         <div class="flex space-x-2">
             <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Update</button>
-            <a href="{{ route('proyek-fitur.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">Batal</a>
+            <a href="{{ route('proyek_fitur.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">Batal</a>
         </div>
     </form>
 </div>

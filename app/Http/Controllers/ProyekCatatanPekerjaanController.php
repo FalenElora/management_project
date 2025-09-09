@@ -2,35 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProyekCatatanPekerjaan;
 use Illuminate\Http\Request;
 
 class ProyekCatatanPekerjaanController extends Controller
 {
-     public function index() {
-        return ProyekCatatanPekerjaan::all();
+    public function index()
+    {
+        $catatan = ProyekCatatanPekerjaan::with('proyekFitur')->get();
+        return view('proyek_catatan_pekerjaan.index', compact('catatan'));
     }
 
-    public function store(Request $request) {
+    public function create()
+    {
+        return view('proyek_catatan_pekerjaan.create');
+    }
+
+    public function store(Request $request)
+    {
         $request->validate([
-            'proyek_fitur_id' => 'required|exists:proyek_fitur,id',
-            'user_id' => 'required|exists:user,id',
-            'jenis' => 'required|string',
+            'proyek_fitur_id' => 'required|integer',
+            'catatan'         => 'required|string',
         ]);
 
-        return ProyekCatatanPekerjaan::create($request->all());
+        ProyekCatatanPekerjaan::create($request->all());
+
+        return redirect()->route('proyek_catatan_pekerjaan.index')
+                         ->with('success', 'Catatan berhasil ditambahkan');
     }
 
-    public function show(ProyekCatatanPekerjaan $proyekCatatanPekerjaan) {
-        return $proyekCatatanPekerjaan;
+    public function edit(ProyekCatatanPekerjaan $proyekCatatanPekerjaan)
+    {
+        return view('proyek_catatan_pekerjaan.edit', [
+            'catatan' => $proyekCatatanPekerjaan
+        ]);
     }
 
-    public function update(Request $request, ProyekCatatanPekerjaan $proyekCatatanPekerjaan) {
+    public function update(Request $request, ProyekCatatanPekerjaan $proyekCatatanPekerjaan)
+    {
+        $request->validate([
+            'proyek_fitur_id' => 'required|integer',
+            'catatan'         => 'required|string',
+        ]);
+
         $proyekCatatanPekerjaan->update($request->all());
-        return $proyekCatatanPekerjaan;
+
+        return redirect()->route('proyek_catatan_pekerjaan.index')
+                         ->with('success', 'Catatan berhasil diperbarui');
     }
 
-    public function destroy(ProyekCatatanPekerjaan $proyekCatatanPekerjaan) {
+    public function destroy(ProyekCatatanPekerjaan $proyekCatatanPekerjaan)
+    {
         $proyekCatatanPekerjaan->delete();
-        return response()->noContent();
+
+        return redirect()->route('proyek_catatan_pekerjaan.index')
+                         ->with('success', 'Catatan berhasil dihapus');
     }
 }

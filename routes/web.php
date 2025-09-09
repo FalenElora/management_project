@@ -14,6 +14,6 @@ Route::get('/', function () {
 });
 Route::resource('customer', CustomerController::class);
 Route::resource('proyek', ProyekController::class);
-Route::resource('proyek-fitur', ProyekFiturController::class);
-Route::apiResource('proyek-fitur-user', ProyekFiturUserController::class);
-Route::apiResource('proyek-catatan', ProyekCatatanPekerjaanController::class);
+Route::resource('proyek_fitur', ProyekFiturController::class);
+Route::resource('proyek_fitur_user', ProyekFiturUserController::class);
+Route::resource('proyek_catatan_pekerjaan', ProyekCatatanPekerjaanController::class);

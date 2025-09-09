@@ -7,68 +7,85 @@ use Illuminate\Http\Request;
 
 class ProyekFiturController extends Controller
 {
-    // Tampilkan semua fitur
+    /**
+     * Tampilkan semua fitur
+     */
     public function index()
     {
-        $proyekFitur = ProyekFitur::all();
+        $proyekFitur = ProyekFitur::latest()->get(); // pakai latest biar data terbaru muncul dulu
         return view('proyek_fitur.index', compact('proyekFitur'));
     }
 
-    // Form tambah fitur
+    /**
+     * Form tambah fitur
+     */
     public function create()
     {
         return view('proyek_fitur.create');
     }
 
-    // Simpan fitur baru
+    /**
+     * Simpan fitur baru
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'proyek_id'   => 'required|integer',
-            'nama_fitur'  => 'required|string|max:255',
-            'keterangan'  => 'nullable|string',
-            'status_fitur'=> 'required|string'
+        $validated = $request->validate([
+            'proyek_id'    => 'required|integer',
+            'nama_fitur'   => 'required|string|max:255',
+            'keterangan'   => 'nullable|string',
+            'status_fitur' => 'required|string|max:50',
         ]);
 
-        ProyekFitur::create($request->all());
+        ProyekFitur::create($validated);
 
-        return redirect()->route('proyek-fitur.index')
-                         ->with('success', 'Fitur berhasil ditambahkan!');
+        return redirect()
+            ->route('proyek_fitur.index')
+            ->with('success', 'Fitur berhasil ditambahkan!');
     }
 
-    // Detail fitur
+    /**
+     * Detail fitur
+     */
     public function show(ProyekFitur $proyekFitur)
     {
         return view('proyek_fitur.show', compact('proyekFitur'));
     }
 
-    // Form edit fitur
+    /**
+     * Form edit fitur
+     */
     public function edit(ProyekFitur $proyekFitur)
     {
         return view('proyek_fitur.edit', compact('proyekFitur'));
     }
 
-    // Update fitur
+    /**
+     * Update fitur
+     */
     public function update(Request $request, ProyekFitur $proyekFitur)
     {
-        $request->validate([
-            'nama_fitur'  => 'required|string|max:255',
-            'keterangan'  => 'nullable|string',
-            'status_fitur'=> 'required|string'
+        $validated = $request->validate([
+            'nama_fitur'   => 'required|string|max:255',
+            'keterangan'   => 'nullable|string',
+            'status_fitur' => 'required|string|max:50',
         ]);
 
-        $proyekFitur->update($request->all());
+        $proyekFitur->update($validated);
 
-        return redirect()->route('proyek-fitur.index')
-                         ->with('success', 'Fitur berhasil diperbarui!');
+        return redirect()
+            ->route('proyek_fitur.index')
+            ->with('success', 'Fitur berhasil diperbarui!');
     }
 
-    // Hapus fitur
+    /**
+     * Hapus fitur
+     */
     public function destroy(ProyekFitur $proyekFitur)
     {
         $proyekFitur->delete();
 
-        return redirect()->route('proyek-fitur.index')
-                         ->with('success', 'Fitur berhasil dihapus!');
+        return redirect()
+            ->route('proyek_fitur.index')
+            ->with('success', 'Fitur berhasil dihapus!');
     }
 }
