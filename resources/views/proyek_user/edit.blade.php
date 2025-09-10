@@ -13,7 +13,7 @@
                 <select name="proyek_id" class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" required>
                     @foreach($proyek as $p)
                         <option value="{{ $p->id }}" {{ $p->id == $proyekUser->proyek_id ? 'selected' : '' }}>
-                            {{ $p->nama }}
+                            {{ $p->nama_proyek }}
                         </option>
                     @endforeach
                 </select>

@@ -9,7 +9,7 @@ class ProyekInvoice extends Model
 {
     use HasFactory;
 
-    protected $table = 'proyek_invoice'; // karena default Laravel pakai jamak
+    protected $table = 'proyek_invoice'; 
 
     protected $fillable = [
         'nomor_invoice',
