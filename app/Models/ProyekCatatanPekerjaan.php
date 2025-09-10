@@ -19,7 +19,7 @@ class ProyekCatatanPekerjaan extends Model
     ];
 
     // Relasi ke fitur
-    public function fitur()
+    public function proyekFitur()
     {
         return $this->belongsTo(ProyekFitur::class, 'proyek_fitur_id');
     }

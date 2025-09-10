@@ -17,13 +17,13 @@ class ProyekFiturUser extends Model
         'keterangan',
     ];
 
-    // Relasi ke fitur
-    public function fitur()
+    // Relasi ke ProyekFitur
+    public function proyekFitur()
     {
         return $this->belongsTo(ProyekFitur::class, 'proyek_fitur_id');
     }
 
-    // Relasi ke user
+    // Relasi ke User (jika ada)
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

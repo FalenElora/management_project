@@ -23,15 +23,22 @@ class ProyekCatatanPekerjaanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'proyek_fitur_id' => 'required|integer',
-            'catatan'         => 'required|string',
+            'proyek_fitur_id' => 'required|exists:proyek_fitur,id',
+            'catatan' => 'required|string',
+            'jenis' => 'required|in:pekerjaan,bug',
         ]);
 
-        ProyekCatatanPekerjaan::create($request->all());
+        ProyekCatatanPekerjaan::create([
+            'proyek_fitur_id' => $request->proyek_fitur_id,
+            'catatan' => $request->catatan,
+            'jenis' => $request->jenis,
+            'user_id' => auth()->id(), 
+        ]);
 
         return redirect()->route('proyek_catatan_pekerjaan.index')
-                         ->with('success', 'Catatan berhasil ditambahkan');
+                        ->with('success', 'Catatan berhasil ditambahkan');
     }
+
 
     public function edit($id)
     {

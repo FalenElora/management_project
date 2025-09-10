@@ -11,15 +11,24 @@
 
         {{-- Pilih Proyek Fitur --}}
         <div>
-          <label class="block font-semibold">Proyek Fitur</label>
-          <select name="proyek_fitur_id" class="form-control" required>
-              <option value="" disabled selected>Pilih Fitur</option>
-              @foreach($proyekFitur as $fitur)
-                  <option value="{{ $fitur->id }}">{{ $fitur->nama_fitur }}</option>
-              @endforeach
-          </select>
+            <label class="block font-semibold">Proyek Fitur</label>
+            <select name="proyek_fitur_id" class="w-full border p-2 rounded" required>
+                <option value="" disabled selected>Pilih Fitur</option>
+                @foreach($proyekFitur as $fitur)
+                    <option value="{{ $fitur->id }}">{{ $fitur->nama_fitur }}</option>
+                @endforeach
+            </select>
         </div>
 
+        {{-- Pilih Jenis --}}
+        <div>
+            <label class="block font-semibold">Jenis</label>
+            <select name="jenis" class="w-full border p-2 rounded" required>
+                <option value="" disabled selected>Pilih Jenis</option>
+                <option value="pekerjaan">Pekerjaan</option>
+                <option value="bug">Bug</option>
+            </select>
+        </div>
 
         {{-- Catatan --}}
         <div>
