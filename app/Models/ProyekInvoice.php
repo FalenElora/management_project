@@ -9,7 +9,9 @@ class ProyekInvoice extends Model
 {
     use HasFactory;
 
-    protected $table = 'proyek_invoice'; // karena default Laravel pakai jamak
+    protected $table = 'proyek_invoice'; // karena nama tabel bukan jamak
+
+    public $timestamps = false; // <--- Wajib, biar ga nyari created_at & updated_at
 
     protected $fillable = [
         'nomor_invoice',
