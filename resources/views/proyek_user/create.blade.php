@@ -13,7 +13,7 @@
                 <select name="proyek_id" class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" required>
                     <option value="">-- Pilih Proyek --</option>
                     @foreach($proyek as $p)
-                        <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                        <option value="{{ $p->id }}">{{ $p->nama_proyek }}</option>
                     @endforeach
                 </select>
             </div>

@@ -6,6 +6,7 @@
     @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100">
+    @extends('layouts.app')
     <div class="max-w-6xl mx-auto p-6">
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-2xl font-bold text-gray-700 flex items-center gap-2">

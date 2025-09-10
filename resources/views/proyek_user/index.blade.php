@@ -32,7 +32,7 @@
                 @forelse($data as $index => $item)
                     <tr class="hover:bg-gray-50">
                         <td class="px-4 py-2 border">{{ $index+1 }}</td>
-                        <td class="px-4 py-2 border">{{ $item->proyek->nama ?? '-' }}</td>
+                        <td class="px-4 py-2 border">{{ $item->proyek->nama_proyek ?? '-' }}</td>
                         <td class="px-4 py-2 border">{{ $item->user->name ?? '-' }}</td>
                         <td class="px-4 py-2 border capitalize">{{ $item->sebagai }}</td>
                         <td class="px-4 py-2 border">{{ $item->keterangan ?? '-' }}</td>
