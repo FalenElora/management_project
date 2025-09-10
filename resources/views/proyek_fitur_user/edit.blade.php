@@ -1,30 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Edit Proyek Fitur User</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-6">
-  <h1 class="text-xl font-bold mb-4">Edit Proyek Fitur User</h1>
+@extends('layouts.app')
 
-  <form action="{{ route('proyek_fitur_user.update', $proyekFiturUser->id) }}" method="POST" class="space-y-3">
-    @csrf @method('PUT')
-    <div>
-      <label>Proyek Fitur</label>
-      <input type="number" name="proyek_fitur_id" class="form-control" value="{{ $proyekFiturUser->proyek_fitur_id }}" required>
-    </div>
-    <div>
-      <label>User ID</label>
-      <input type="number" name="user_id" class="form-control" value="{{ $proyekFiturUser->user_id }}" required>
-    </div>
-    <div>
-      <label>Keterangan</label>
-      <textarea name="keterangan" class="form-control">{{ $proyekFiturUser->keterangan }}</textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Update</button>
-    <a href="{{ route('proyek_fitur_user.index') }}" class="btn btn-secondary">Kembali</a>
-  </form>
-</body>
-</html>
+@section('title', 'Edit Proyek Fitur User')
+
+@section('content')
+<div class="max-w-lg mx-auto bg-white shadow-md rounded p-6 mt-6">
+    <h2 class="text-xl font-bold mb-4">Edit Proyek Fitur User</h2>
+
+    <form action="{{ route('proyek_fitur_user.update', $proyekFiturUser->id) }}" method="POST" class="space-y-4">
+        @csrf
+        @method('PUT')
+
+        {{-- Pilih Proyek Fitur --}}
+        <div>
+            <label class="block font-semibold">Proyek Fitur</label>
+            <select name="proyek_fitur_id" class="w-full border p-2 rounded" required>
+                @foreach($proyekFitur as $fitur)
+                    <option value="{{ $fitur->id }}" {{ $proyekFiturUser->proyek_fitur_id == $fitur->id ? 'selected' : '' }}>
+                        {{ $fitur->nama_fitur }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Pilih User --}}
+        <div>
+            <label class="block font-semibold">User</label>
+            <select name="user_id" class="w-full border p-2 rounded" required>
+                @foreach($users as $user)
+                    <option value="{{ $user->id }}" {{ $proyekFiturUser->user_id == $user->id ? 'selected' : '' }}>
+                        {{ $user->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Keterangan --}}
+        <div>
+            <label class="block font-semibold">Keterangan</label>
+            <textarea name="keterangan" class="w-full border p-2 rounded">{{ $proyekFiturUser->keterangan }}</textarea>
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Update</button>
+            <a href="{{ route('proyek_fitur_user.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">Kembali</a>
+        </div>
+    </form>
+</div>
+@endsection

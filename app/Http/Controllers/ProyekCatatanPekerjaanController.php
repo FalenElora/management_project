@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProyekCatatanPekerjaan;
+use App\Models\ProyekFitur;
 use Illuminate\Http\Request;
 
 class ProyekCatatanPekerjaanController extends Controller
@@ -15,27 +16,36 @@ class ProyekCatatanPekerjaanController extends Controller
 
     public function create()
     {
-        return view('proyek_catatan_pekerjaan.create');
+        $proyekFitur = ProyekFitur::all(); 
+        return view('proyek_catatan_pekerjaan.create', compact('proyekFitur'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'proyek_fitur_id' => 'required|integer',
-            'catatan'         => 'required|string',
+            'proyek_fitur_id' => 'required|exists:proyek_fitur,id',
+            'catatan' => 'required|string',
+            'jenis' => 'required|in:pekerjaan,bug',
         ]);
 
-        ProyekCatatanPekerjaan::create($request->all());
+        ProyekCatatanPekerjaan::create([
+            'proyek_fitur_id' => $request->proyek_fitur_id,
+            'catatan' => $request->catatan,
+            'jenis' => $request->jenis,
+            'user_id' => auth()->id(), 
+        ]);
 
         return redirect()->route('proyek_catatan_pekerjaan.index')
-                         ->with('success', 'Catatan berhasil ditambahkan');
+                        ->with('success', 'Catatan berhasil ditambahkan');
     }
 
-    public function edit(ProyekCatatanPekerjaan $proyekCatatanPekerjaan)
+
+    public function edit($id)
     {
-        return view('proyek_catatan_pekerjaan.edit', [
-            'catatan' => $proyekCatatanPekerjaan
-        ]);
+        $catatan = ProyekCatatanPekerjaan::findOrFail($id);
+        $proyekFitur = ProyekFitur::all(); 
+
+        return view('proyek_catatan_pekerjaan.edit', compact('catatan', 'proyekFitur'));
     }
 
     public function update(Request $request, ProyekCatatanPekerjaan $proyekCatatanPekerjaan)

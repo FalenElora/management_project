@@ -1,43 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Catatan Pekerjaan</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-6 bg-gray-100">
-  <h1 class="text-2xl font-bold mb-4">Daftar Catatan Pekerjaan</h1>
+@extends('layouts.app')
 
-  <a href="{{ route('proyek_catatan_pekerjaan.create') }}" class="btn btn-primary mb-3">+ Tambah Catatan</a>
+@section('title', 'Daftar Catatan Pekerjaan')
 
-  <table class="table table-bordered bg-white shadow-md">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Proyek Fitur</th>
-        <th>Catatan</th>
-        <th>Tanggal</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach ($catatan as $item)
-        <tr>
-          <td>{{ $item->id }}</td>
-          <td>{{ $item->proyekFitur->nama_fitur ?? '-' }}</td>
-          <td>{{ $item->catatan }}</td>
-          <td>{{ $item->created_at }}</td>
-          <td>
-            <a href="{{ route('proyek_catatan_pekerjaan.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
-            <form action="{{ route('proyek_catatan_pekerjaan.destroy', $item->id) }}" method="POST" class="inline-block">
-              @csrf @method('DELETE')
-              <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-            </form>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-</body>
-</html>
+@section('content')
+<div class="max-w-6xl mx-auto mt-6">
+    <h1 class="text-2xl font-bold mb-4">Daftar Catatan Pekerjaan</h1>
+
+    {{-- Notifikasi sukses --}}
+    @if(session('success'))
+        <div class="bg-green-100 text-green-700 p-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    {{-- Tombol tambah --}}
+    <a href="{{ route('proyek_catatan_pekerjaan.create') }}" 
+       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow mb-4 inline-block">
+       + Tambah Catatan
+    </a>
+
+    {{-- Tabel --}}
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full border border-gray-200">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2 border">ID</th>
+                    <th class="px-4 py-2 border">Proyek Fitur</th>
+                    <th class="px-4 py-2 border">Catatan</th>
+                    <th class="px-4 py-2 border">Tanggal</th>
+                    <th class="px-4 py-2 border">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($catatan as $item)
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-2 border">{{ $item->id }}</td>
+                    <td class="px-4 py-2 border">{{ $item->proyekFitur->nama_fitur ?? '-' }}</td>
+                    <td class="px-4 py-2 border">{{ $item->catatan }}</td>
+                    <td class="px-4 py-2 border">{{ $item->created_at->format('d-m-Y H:i') }}</td>
+                    <td class="px-4 py-2 border flex gap-2">
+                        <a href="{{ route('proyek_catatan_pekerjaan.edit', $item->id) }}" 
+                           class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit</a>
+                        <form action="{{ route('proyek_catatan_pekerjaan.destroy', $item->id) }}" method="POST" 
+                              onsubmit="return confirm('Yakin hapus catatan ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-gray-500">
+                        Belum ada catatan pekerjaan
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection

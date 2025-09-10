@@ -37,4 +37,9 @@ class ProyekFitur extends Model
     {
         return $this->hasMany(ProyekCatatanPekerjaan::class, 'proyek_fitur_id');
     }
+
+    public function proyekFiturUsers()
+    {
+        return $this->hasMany(ProyekFiturUser::class, 'proyek_fitur_id');
+    }
 }
