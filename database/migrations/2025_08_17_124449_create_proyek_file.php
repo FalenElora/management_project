@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('keterangan')->nullable();
             $table->string('path');
             $table->foreignId('user_id')->constrained('users');
+            $table->timestamps();
         });
     }
 
