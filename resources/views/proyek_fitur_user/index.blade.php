@@ -1,43 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Proyek Fitur User</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-6 bg-gray-100">
-  <h1 class="text-2xl font-bold mb-4">Daftar Proyek Fitur User</h1>
+@extends('layouts.app')
 
-  <a href="{{ route('proyek_fitur_user.create') }}" class="btn btn-primary mb-3">+ Tambah User Fitur</a>
+@section('title', 'Proyek Fitur User')
 
-  <table class="table table-bordered bg-white shadow-md">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Proyek Fitur</th>
-        <th>User</th>
-        <th>Keterangan</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach ($proyekFiturUser as $item)
-        <tr>
-          <td>{{ $item->id }}</td>
-          <td>{{ $item->proyekFitur->nama_fitur ?? '-' }}</td>
-          <td>{{ $item->user->name ?? '-' }}</td>
-          <td>{{ $item->keterangan }}</td>
-          <td>
-            <a href="{{ route('proyek_fitur_user.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
-            <form action="{{ route('proyek_fitur_user.destroy', $item->id) }}" method="POST" class="inline-block">
-              @csrf @method('DELETE')
-              <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-            </form>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-</body>
-</html>
+@section('content')
+<div class="container mx-auto mt-6">
+    <h2 class="text-2xl font-bold mb-4">Daftar Proyek Fitur User</h2>
+
+    <a href="{{ route('proyek_fitur_user.create') }}" 
+       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mb-4 inline-block">
+        + Tambah User Fitur
+    </a>
+
+    <table class="w-full border border-gray-200 rounded shadow-sm">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 border">ID</th>
+                <th class="px-4 py-2 border">Proyek Fitur</th>
+                <th class="px-4 py-2 border">User</th>
+                <th class="px-4 py-2 border">Keterangan</th>
+                <th class="px-4 py-2 border">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($proyekFiturUser as $item)
+                <tr class="text-center">
+                    <td class="px-4 py-2 border">{{ $item->id }}</td>
+                    <td class="px-4 py-2 border">{{ $item->proyekFitur->nama_fitur ?? '-' }}</td>
+                    <td class="px-4 py-2 border">{{ $item->user->name ?? '-' }}</td>
+                    <td class="px-4 py-2 border">{{ $item->keterangan }}</td>
+                    <td class="px-4 py-2 border flex justify-center gap-2">
+                        <a href="{{ route('proyek_fitur_user.edit', $item->id) }}" 
+                           class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
+                            Edit
+                        </a>
+                        <form action="{{ route('proyek_fitur_user.destroy', $item->id) }}" 
+                              method="POST" 
+                              onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                            @csrf 
+                            @method('DELETE')
+                            <button type="submit" 
+                                    class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
+                                Hapus
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" class="px-4 py-4 text-center text-gray-500">
+                        Belum ada data User Fitur
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+@endsection

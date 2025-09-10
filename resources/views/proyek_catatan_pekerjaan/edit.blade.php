@@ -1,26 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Edit Catatan Pekerjaan</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-6">
-  <h1 class="text-xl font-bold mb-4">Edit Catatan Pekerjaan</h1>
+@extends('layouts.app')
 
-  <form action="{{ route('proyek_catatan_pekerjaan.update', $catatan->id) }}" method="POST" class="space-y-3">
-    @csrf @method('PUT')
-    <div>
-      <label>Proyek Fitur</label>
-      <input type="number" name="proyek_fitur_id" class="form-control" value="{{ $catatan->proyek_fitur_id }}" required>
-    </div>
-    <div>
-      <label>Catatan</label>
-      <textarea name="catatan" class="form-control" required>{{ $catatan->catatan }}</textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Update</button>
-    <a href="{{ route('proyek_catatan_pekerjaan.index') }}" class="btn btn-secondary">Kembali</a>
-  </form>
-</body>
-</html>
+@section('title', 'Edit Catatan Pekerjaan')
+
+@section('content')
+<div class="max-w-lg mx-auto bg-white shadow-md rounded p-6 mt-6">
+    <h2 class="text-xl font-bold mb-4">Edit Catatan Pekerjaan</h2>
+
+    <form action="{{ route('proyek_catatan_pekerjaan.update', $catatan->id) }}" method="POST" class="space-y-4">
+        @csrf
+        @method('PUT')
+
+        {{-- Pilih Proyek Fitur --}}
+        <div>
+            <label class="block font-semibold">Proyek Fitur</label>
+            <select name="proyek_fitur_id" class="w-full border p-2 rounded" required>
+                @foreach($proyekFitur as $fitur)
+                    <option value="{{ $fitur->id }}" {{ $catatan->proyek_fitur_id == $fitur->id ? 'selected' : '' }}>
+                        {{ $fitur->nama_fitur }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Catatan --}}
+        <div>
+            <label class="block font-semibold">Catatan</label>
+            <textarea name="catatan" class="w-full border p-2 rounded" required>{{ $catatan->catatan }}</textarea>
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Update</button>
+            <a href="{{ route('proyek_catatan_pekerjaan.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">Kembali</a>
+        </div>
+    </form>
+</div>
+@endsection

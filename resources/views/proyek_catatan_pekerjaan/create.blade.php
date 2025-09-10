@@ -1,26 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Tambah Catatan Pekerjaan</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-6">
-  <h1 class="text-xl font-bold mb-4">Tambah Catatan Pekerjaan</h1>
+@extends('layouts.app')
 
-  <form action="{{ route('proyek_catatan_pekerjaan.store') }}" method="POST" class="space-y-3">
-    @csrf
-    <div>
-      <label>Proyek Fitur</label>
-      <input type="number" name="proyek_fitur_id" class="form-control" required>
-    </div>
-    <div>
-      <label>Catatan</label>
-      <textarea name="catatan" class="form-control" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Simpan</button>
-    <a href="{{ route('proyek_catatan_pekerjaan.index') }}" class="btn btn-secondary">Kembali</a>
-  </form>
-</body>
-</html>
+@section('title', 'Tambah Catatan Pekerjaan')
+
+@section('content')
+<div class="max-w-lg mx-auto bg-white shadow-md rounded p-6 mt-6">
+    <h2 class="text-xl font-bold mb-4">Tambah Catatan Pekerjaan</h2>
+
+    <form action="{{ route('proyek_catatan_pekerjaan.store') }}" method="POST" class="space-y-4">
+        @csrf
+
+        {{-- Pilih Proyek Fitur --}}
+        <div>
+          <label class="block font-semibold">Proyek Fitur</label>
+          <select name="proyek_fitur_id" class="form-control" required>
+              <option value="" disabled selected>Pilih Fitur</option>
+              @foreach($proyekFitur as $fitur)
+                  <option value="{{ $fitur->id }}">{{ $fitur->nama_fitur }}</option>
+              @endforeach
+          </select>
+        </div>
+
+
+        {{-- Catatan --}}
+        <div>
+            <label class="block font-semibold">Catatan</label>
+            <textarea name="catatan" class="w-full border p-2 rounded" required></textarea>
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Simpan</button>
+            <a href="{{ route('proyek_catatan_pekerjaan.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">Kembali</a>
+        </div>
+    </form>
+</div>
+@endsection

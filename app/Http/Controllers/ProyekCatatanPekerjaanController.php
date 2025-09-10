@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProyekCatatanPekerjaan;
+use App\Models\ProyekFitur;
 use Illuminate\Http\Request;
 
 class ProyekCatatanPekerjaanController extends Controller
@@ -15,7 +16,8 @@ class ProyekCatatanPekerjaanController extends Controller
 
     public function create()
     {
-        return view('proyek_catatan_pekerjaan.create');
+        $proyekFitur = ProyekFitur::all(); 
+        return view('proyek_catatan_pekerjaan.create', compact('proyekFitur'));
     }
 
     public function store(Request $request)
@@ -31,11 +33,12 @@ class ProyekCatatanPekerjaanController extends Controller
                          ->with('success', 'Catatan berhasil ditambahkan');
     }
 
-    public function edit(ProyekCatatanPekerjaan $proyekCatatanPekerjaan)
+    public function edit($id)
     {
-        return view('proyek_catatan_pekerjaan.edit', [
-            'catatan' => $proyekCatatanPekerjaan
-        ]);
+        $catatan = ProyekCatatanPekerjaan::findOrFail($id);
+        $proyekFitur = ProyekFitur::all(); 
+
+        return view('proyek_catatan_pekerjaan.edit', compact('catatan', 'proyekFitur'));
     }
 
     public function update(Request $request, ProyekCatatanPekerjaan $proyekCatatanPekerjaan)

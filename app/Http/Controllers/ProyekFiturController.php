@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProyekFitur;
+use App\Models\Proyek;
 use Illuminate\Http\Request;
 
 class ProyekFiturController extends Controller
@@ -12,7 +13,7 @@ class ProyekFiturController extends Controller
      */
     public function index()
     {
-        $proyekFitur = ProyekFitur::latest()->get(); // pakai latest biar data terbaru muncul dulu
+        $proyekFitur = ProyekFitur::with('proyek')->latest()->get(); 
         return view('proyek_fitur.index', compact('proyekFitur'));
     }
 
@@ -21,8 +22,10 @@ class ProyekFiturController extends Controller
      */
     public function create()
     {
-        return view('proyek_fitur.create');
+        $proyekFitur = Proyek::all();
+        return view('proyek_fitur.create', compact('proyekFitur'));
     }
+
 
     /**
      * Simpan fitur baru
@@ -30,7 +33,7 @@ class ProyekFiturController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'proyek_id'    => 'required|integer',
+            'proyek_id'    => 'required|exists:proyek,id',
             'nama_fitur'   => 'required|string|max:255',
             'keterangan'   => 'nullable|string',
             'status_fitur' => 'required|string|max:50',
@@ -56,7 +59,8 @@ class ProyekFiturController extends Controller
      */
     public function edit(ProyekFitur $proyekFitur)
     {
-        return view('proyek_fitur.edit', compact('proyekFitur'));
+        $proyekFitur = Proyek::all();
+        return view('proyek_fitur.edit', compact('proyekFitur', 'proyek'));
     }
 
     /**
@@ -65,6 +69,7 @@ class ProyekFiturController extends Controller
     public function update(Request $request, ProyekFitur $proyekFitur)
     {
         $validated = $request->validate([
+            'proyek_id'    => 'required|exists:proyek,id',
             'nama_fitur'   => 'required|string|max:255',
             'keterangan'   => 'nullable|string',
             'status_fitur' => 'required|string|max:50',
