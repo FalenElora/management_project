@@ -10,7 +10,7 @@ class ProyekInvoiceController extends Controller
 {
     public function index()
     {
-        // urutkan pakai tanggal_invoice (karena ga ada created_at)
+        
         $invoices = ProyekInvoice::with('proyek')
             ->orderBy('tanggal_invoice', 'desc')
             ->paginate(10);

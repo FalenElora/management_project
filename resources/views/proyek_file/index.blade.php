@@ -1,45 +1,61 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="p-6">
-    <div class="flex items-center justify-between mb-4">
-        <h1 class="text-xl font-semibold text-gray-700">Daftar Proyek File</h1>
-        <a href="{{ route('proyek_file.create') }}" 
-           class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            + Tambah Proyek File
-        </a>
-    </div>
+@section('title', 'Manajemen File Proyek')
 
-    <div class="bg-white shadow rounded-lg overflow-hidden">
-        <table class="w-full table-auto">
-            <thead class="bg-gray-100 text-gray-700">
+@section('content')
+<div class="max-w-6xl mx-auto mt-6">
+    <h2 class="text-2xl font-bold mb-4">Manajemen File Proyek</h2>
+
+    @if(session('success'))
+        <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <a href="{{ route('proyek_file.create') }}" 
+       class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        + Tambah File
+    </a>
+
+    <div class="mt-4 bg-white shadow rounded overflow-x-auto">
+        <table class="min-w-full border border-gray-200">
+            <thead class="bg-gray-100">
                 <tr>
-                    <th class="px-4 py-3 text-left">ID</th>
-                    <th class="px-4 py-3 text-left">Nama File</th>
-                    <th class="px-4 py-3 text-left">Keterangan</th>
-                    <th class="px-4 py-3 text-left">Path</th>
-                    <th class="px-4 py-3 text-left">User</th>
-                    <th class="px-4 py-3 text-left">Aksi</th>
+                    <th class="px-4 py-2 border">ID</th>
+                    <th class="px-4 py-2 border">Nama File</th>
+                    <th class="px-4 py-2 border">Keterangan</th>
+                    <th class="px-4 py-2 border">Path</th>
+                    <th class="px-4 py-2 border">Proyek</th>
+                    <th class="px-4 py-2 border">User</th>
+                    <th class="px-4 py-2 border">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($files as $file)
-                    <tr class="border-t hover:bg-gray-50">
-                        <td class="px-4 py-3">{{ $file->id }}</td>
-                        <td class="px-4 py-3">{{ $file->nama_file }}</td>
-                        <td class="px-4 py-3">{{ $file->keterangan }}</td>
-                        <td class="px-4 py-3">{{ $file->path }}</td>
-                        <td class="px-4 py-3">{{ $file->user->name ?? '-' }}</td>
-                        <td class="px-4 py-3 space-x-2">
-                            <a href="{{ route('proyek_file.edit', $file->id) }}"
-                               class="text-sm bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit</a>
-                            <form action="{{ route('proyek_file.destroy', $file->id) }}" 
-                                  method="POST" class="inline"
-                                  onsubmit="return confirm('Yakin hapus?')">
+                @forelse($files as $f)
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-2 border">{{ $f->id }}</td>
+                        <td class="px-4 py-2 border">{{ $f->nama_file }}</td>
+                        <td class="px-4 py-2 border">{{ $f->keterangan ?? '-' }}</td>
+                        <td class="px-4 py-2 border">
+                            @if($f->path)
+                                <a href="{{ asset('storage/'.$f->path) }}" target="_blank" class="text-blue-600 underline">
+                                    Lihat File
+                                </a>
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td class="px-4 py-2 border">{{ $f->proyek->nama_proyek ?? '-' }}</td>
+                        <td class="px-4 py-2 border">{{ $f->user->name ?? '-' }}</td>
+                        <td class="px-4 py-2 border space-x-2">
+                            <a href="{{ route('proyek_file.edit', $f->id) }}" 
+                               class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 text-sm">Edit</a>
+                            <form action="{{ route('proyek_file.destroy', $f->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit"
-                                        class="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                                <button type="submit" 
+                                    onclick="return confirm('Yakin hapus file ini?')"
+                                    class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm">
                                     Hapus
                                 </button>
                             </form>
@@ -47,9 +63,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center px-4 py-6 text-gray-500">
-                            Belum ada data
-                        </td>
+                        <td colspan="7" class="text-center py-4">Belum ada file proyek</td>
                     </tr>
                 @endforelse
             </tbody>

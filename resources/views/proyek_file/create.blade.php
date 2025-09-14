@@ -1,55 +1,53 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="p-6 max-w-3xl mx-auto">
-    <h1 class="text-xl font-semibold text-gray-700 mb-6">➕ Tambah Proyek File</h1>
+@section('title', 'Tambah File Proyek')
 
-    <form action="{{ route('proyek_file.store') }}" method="POST" class="bg-white p-6 rounded-xl shadow space-y-5">
+@section('content')
+<div class="max-w-2xl mx-auto mt-6 bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Tambah File Proyek</h2>
+
+    <form action="{{ route('proyek_file.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
         @csrf
 
         <div>
-            <label class="block text-gray-700 font-medium">Nama File</label>
-            <input type="text" name="nama_file"
-                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   required>
+            <label class="block font-medium">Nama File</label>
+            <input type="text" name="nama_file" class="w-full border rounded px-3 py-2" required>
         </div>
 
         <div>
-            <label class="block text-gray-700 font-medium">Keterangan</label>
-            <textarea name="keterangan" rows="3"
-                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"></textarea>
+            <label class="block font-medium">Keterangan</label>
+            <textarea name="keterangan" class="w-full border rounded px-3 py-2"></textarea>
         </div>
 
         <div>
-            <label class="block text-gray-700 font-medium">Path</label>
-            <input type="text" name="path"
-                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   required>
+            <label class="block font-medium">Upload File</label>
+            <input type="file" name="path" class="w-full border rounded px-3 py-2" required>
+            <p class="text-sm text-gray-500">Format: pdf, jpg, jpeg, png | Max: 2MB</p>
         </div>
 
         <div>
-            <label class="block text-gray-700 font-medium">User ID</label>
-            <input type="number" name="user_id"
-                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   required>
+            <label class="block font-medium">Proyek</label>
+            <select name="proyek_id" class="w-full border rounded px-3 py-2" required>
+                <option value="">-- Pilih Proyek --</option>
+                @foreach($proyek as $p)
+                    <option value="{{ $p->id }}">{{ $p->nama_proyek }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div>
-            <label class="block text-gray-700 font-medium">Proyek ID</label>
-            <input type="number" name="proyek_id"
-                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   required>
+            <label class="block font-medium">User</label>
+            <select name="user_id" class="w-full border rounded px-3 py-2" required>
+                <option value="">-- Pilih User --</option>
+                @foreach($users as $u)
+                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                @endforeach
+            </select>
         </div>
 
-        <div class="flex gap-3">
-            <button type="submit"
-                    class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 shadow">
-                Simpan
-            </button>
-            <a href="{{ route('proyek_file.index') }}"
-               class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 shadow">
-               Batal
-            </a>
+        <div class="flex justify-end space-x-2">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
+            <a href="{{ route('proyek_file.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Kembali</a>
         </div>
     </form>
 </div>

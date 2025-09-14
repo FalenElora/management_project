@@ -15,9 +15,7 @@ class ProyekController extends Controller
         return view('proyek.index', compact('proyek'));
     }
 
-    /**
-     * Form tambah proyek baru.
-     */
+   
     public function create()
     {
         $customers = Customer::all();

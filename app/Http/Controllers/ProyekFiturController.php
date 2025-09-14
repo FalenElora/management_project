@@ -8,18 +8,12 @@ use Illuminate\Http\Request;
 
 class ProyekFiturController extends Controller
 {
-    /**
-     * Tampilkan semua fitur
-     */
-    public function index()
+        public function index()
     {
         $proyekFitur = ProyekFitur::with('proyek')->latest()->get(); 
         return view('proyek_fitur.index', compact('proyekFitur'));
     }
 
-    /**
-     * Form tambah fitur
-     */
     public function create()
     {
         $proyekFitur = Proyek::all();
@@ -27,9 +21,7 @@ class ProyekFiturController extends Controller
     }
 
 
-    /**
-     * Simpan fitur baru
-     */
+   
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -46,26 +38,20 @@ class ProyekFiturController extends Controller
             ->with('success', 'Fitur berhasil ditambahkan!');
     }
 
-    /**
-     * Detail fitur
-     */
+    
     public function show(ProyekFitur $proyekFitur)
     {
         return view('proyek_fitur.show', compact('proyekFitur'));
     }
 
-    /**
-     * Form edit fitur
-     */
+    
     public function edit(ProyekFitur $proyekFitur)
     {
         $proyekFitur = Proyek::all();
         return view('proyek_fitur.edit', compact('proyekFitur', 'proyek'));
     }
 
-    /**
-     * Update fitur
-     */
+   
     public function update(Request $request, ProyekFitur $proyekFitur)
     {
         $validated = $request->validate([
@@ -82,9 +68,7 @@ class ProyekFiturController extends Controller
             ->with('success', 'Fitur berhasil diperbarui!');
     }
 
-    /**
-     * Hapus fitur
-     */
+   
     public function destroy(ProyekFitur $proyekFitur)
     {
         $proyekFitur->delete();

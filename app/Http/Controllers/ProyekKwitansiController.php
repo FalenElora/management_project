@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProyekKwitansi;
-use App\Models\Proyek; // <<< jangan lupa ini
+use App\Models\Proyek; 
 use Illuminate\Http\Request;
 
 class ProyekKwitansiController extends Controller
@@ -16,8 +16,8 @@ class ProyekKwitansiController extends Controller
 
     public function create()
     {
-        // ambil daftar proyek untuk select
-        $proyek = Proyek::orderBy('nama_proyek')->get(); // ubah kolom jika nama berbeda
+        
+        $proyek = Proyek::orderBy('nama_proyek')->get(); 
         return view('proyek_kwitansi.create', compact('proyek'));
     }
 
