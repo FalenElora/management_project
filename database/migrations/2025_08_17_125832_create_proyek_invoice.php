@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('tanggal_invoice');
             $table->text('keterangan')->nullable();
             $table->enum('status', ['belum_dibayar', 'diproses', 'dibayar']);
+            $table->timestamps();
         });
     }
 

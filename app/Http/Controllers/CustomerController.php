@@ -24,13 +24,24 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'nomor_telepon' => 'required|string|max:20',
-            'email' => 'nullable|email',
-            'catatan' => 'nullable|string',
-            'status' => 'required|in:aktif,tidak_aktif',
-        ]);
+                'nama' => 'required',
+                'alamat' => 'required',
+                'nomor_telepon' => 'required|max:20',
+                'email' => 'required|email',
+                'catatan' => 'nullable|string',
+                'status' => 'required|in:aktif,tidak_aktif',
+            ], [
+                'nama.required' => 'Nama harus diisi',
+                'alamat.required' => 'Alamat harus diisi',
+                'nomor_telepon.required' => 'Nomor telepon harus diisi',
+                'nomor_telepon.max' => 'Nomor telepon maksimal 20 karakter',
+                'email.required' => 'Email harus diisi',
+                'email.email' => 'Format email tidak valid',
+                'catatan.string' => 'Catatan harus berupa teks',
+                'status.required' => 'Status harus dipilih',
+                'status.in' => 'Status harus antara: aktif atau tidak aktif',
+            ]);
+
 
         Customer::create($request->all());
 

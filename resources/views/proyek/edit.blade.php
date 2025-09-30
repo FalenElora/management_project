@@ -41,16 +41,23 @@
                 @error('lokasi') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
             </div>
 
-            <div class="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                    <label class="block font-semibold">Tanggal Mulai</label>
-                    <input type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai', $proyek->tanggal_mulai) }}" class="w-full border rounded p-2">
-                </div>
-                <div>
-                    <label class="block font-semibold">Tanggal Selesai</label>
-                    <input type="date" name="tanggal_selesai" value="{{ old('tanggal_selesai', $proyek->tanggal_selesai) }}" class="w-full border rounded p-2">
-                </div>
-            </div>
+           <div class="grid grid-cols-2 gap-4 mb-4">
+    <div>
+        <label class="block font-semibold">Tanggal Mulai</label>
+        <input type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}" class="w-full border rounded p-2">
+        @error('tanggal_mulai')
+            <p class="text-red-500 text-sm">{{ $message }}</p>
+        @enderror
+    </div>
+    <div>
+        <label class="block font-semibold">Tanggal Selesai</label>
+        <input type="date" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}" class="w-full border rounded p-2">
+        @error('tanggal_selesai')
+            <p class="text-red-500 text-sm">{{ $message }}</p>
+        @enderror
+    </div>
+</div>
+
 
            <div class="mb-4">
                 <label class="block font-semibold">Anggaran</label>

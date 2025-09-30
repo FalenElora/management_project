@@ -11,35 +11,42 @@
 
         <div>
             <label class="block font-medium">Nama</label>
-            <input type="text" name="nama" class="w-full border rounded px-3 py-2" required>
+            <input type="text" name="nama" class="w-full border rounded px-3 py-2" >
+             @error('nama') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
 
         <div>
             <label class="block font-medium">Alamat</label>
-            <input type="text" name="alamat" class="w-full border rounded px-3 py-2" required>
+            <input type="text" name="alamat" class="w-full border rounded px-3 py-2" >
+             @error('alamat') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
 
         <div>
             <label class="block font-medium">Nomor Telepon</label>
-            <input type="text" name="nomor_telepon" class="w-full border rounded px-3 py-2" required>
+            <input type="text" name="nomor_telepon" class="w-full border rounded px-3 py-2" >
+             @error('nomor_telepon') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
 
         <div>
             <label class="block font-medium">Email</label>
-            <input type="email" name="email" class="w-full border rounded px-3 py-2">
+            <input type="email" name="email" value="{{ old('email') }}" class="w-full border rounded px-3 py-2">
+            @error('email') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
 
         <div>
             <label class="block font-medium">Catatan</label>
-            <textarea name="catatan" class="w-full border rounded px-3 py-2"></textarea>
+            <textarea name="catatan" class="w-full border rounded px-3 py-2">{{ old('catatan') }}</textarea>
+            @error('catatan') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
 
         <div>
             <label class="block font-medium">Status</label>
             <select name="status" class="w-full border rounded px-3 py-2">
-                <option value="aktif">Aktif</option>
-                <option value="tidak_aktif">Tidak Aktif</option>
+                <option value="">-- Pilih Status --</option>
+                <option value="aktif" {{ old('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                <option value="tidak_aktif" {{ old('status') == 'tidak_aktif' ? 'selected' : '' }}>Tidak Aktif</option>
             </select>
+            @error('status') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
 
         <div class="flex justify-end space-x-2">

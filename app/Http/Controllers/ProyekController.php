@@ -26,15 +26,28 @@ class ProyekController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_proyek'     => 'required|string|max:255',
-            'customer_id'     => 'required|exists:customer,id',
-            'deskripsi'       => 'required|string',
-            'lokasi'          => 'required|string|max:255',
-            'tanggal_mulai'   => 'nullable|date',
-            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
-            'anggaran'        => 'required|numeric|min:0',
-            'status'          => 'required|in:belum_dimulai,sedang_berjalan,selesai,ditunda',
-        ]);
+        'nama_proyek' => 'required|string|max:255',
+        'customer_id' => 'required|exists:customer,id',
+        'deskripsi' => 'required|string',
+        'lokasi' => 'required|string|max:255',
+        'tanggal_mulai'   => 'required|date',
+        'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+        'anggaran' => 'required|numeric|min:0',
+        'status' => 'required|in:belum_dimulai,sedang_berjalan,selesai,ditunda',
+    ], [
+        'nama_proyek.required' => 'Nama proyek harus diisi',
+        'customer_id.required' => 'Customer harus dipilih',
+        'customer_id.exists' => 'Customer tidak valid',
+        'deskripsi.required' => 'Deskripsi harus diisi',
+        'lokasi.required' => 'Lokasi harus diisi',
+        'tanggal_mulai.required' => 'Tanggal mulai harus diisi',
+        'tanggal_selesai.required' => 'Tanggal selesai harus diisi',
+        'tanggal_selesai.after_or_equal' => 'Tanggal selesai tidak boleh sebelum tanggal mulai',
+        'anggaran.required' => 'Anggaran harus diisi',
+        'anggaran.numeric' => 'Anggaran harus berupa angka',
+        'status.required' => 'Status harus dipilih',
+        'status.in' => 'Status tidak valid',
+    ]);
 
         Proyek::create($request->all());
 
@@ -57,16 +70,29 @@ class ProyekController extends Controller
   
     public function update(Request $request, Proyek $proyek)
     {
-        $request->validate([
-            'nama_proyek'     => 'required|string|max:255',
-            'customer_id'     => 'required|exists:customer,id',
-            'deskripsi'       => 'required|string',
-            'lokasi'          => 'required|string|max:255',
-            'tanggal_mulai'   => 'nullable|date',
-            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
-            'anggaran'        => 'required|numeric|min:0',
-            'status'          => 'required|in:belum_dimulai,sedang_berjalan,selesai,ditunda',
-        ]);
+       $request->validate([
+        'nama_proyek' => 'required|string|max:255',
+        'customer_id' => 'required|exists:customer,id',
+        'deskripsi' => 'required|string',
+        'lokasi' => 'required|string|max:255',
+        'tanggal_mulai'   => 'required|date',
+        'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+        'anggaran' => 'required|numeric|min:0',
+        'status' => 'required|in:belum_dimulai,sedang_berjalan,selesai,ditunda',
+    ], [
+        'nama_proyek.required' => 'Nama proyek harus diisi',
+        'customer_id.required' => 'Customer harus dipilih',
+        'customer_id.exists' => 'Customer tidak valid',
+        'deskripsi.required' => 'Deskripsi harus diisi',
+        'lokasi.required' => 'Lokasi harus diisi',
+        'tanggal_mulai.required' => 'Tanggal mulai harus diisi',
+        'tanggal_selesai.required' => 'Tanggal selesai harus diisi',
+        'tanggal_selesai.after_or_equal' => 'Tanggal selesai tidak boleh sebelum tanggal mulai',
+        'anggaran.required' => 'Anggaran harus diisi',
+        'anggaran.numeric' => 'Anggaran harus berupa angka',
+        'status.required' => 'Status harus dipilih',
+        'status.in' => 'Status tidak valid',
+    ]);
 
         $proyek->update($request->all());
 
